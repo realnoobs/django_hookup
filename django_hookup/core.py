@@ -51,9 +51,15 @@ def register(hook_name, fn=None, order=0):
 
         return decorator
 
-    if hook_name not in _django_hookup:
-        _django_hookup[hook_name] = []
-    _django_hookup[hook_name].append((fn, order))
+    if isinstance(hook_name, (str,)):
+        hook_names = [hook_name]
+    elif isinstance(hook_name, (list, tuple, set)):
+        hook_names = list(hook_name)
+
+    for name in hook_names:
+        if name not in _django_hookup:
+            _django_hookup[name] = []
+        _django_hookup[name].append((fn, order))
 
 
 def search_for_django_hookup():
