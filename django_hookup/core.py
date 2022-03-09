@@ -55,6 +55,8 @@ def register(hook_name, fn=None, order=0):
         hook_names = [hook_name]
     elif isinstance(hook_name, (list, tuple, set)):
         hook_names = list(hook_name)
+    else:
+        raise ValueError("hook_name '%s' for '%s' should be str, or list!" % (hook_name, fn.__name__))
 
     for name in hook_names:
         if name not in _django_hookup:
